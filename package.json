@@ -1,0 +1,19 @@
+{
+  "name": "WorkingPeople",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "^15.1.0",
+    "react-native": "^0.28.0",
+    "react-native-button": "^1.6.0",
+    "react-native-drawer": "^2.2.4",
+    "react-native-refreshable-listview": "^2.0.0-beta4",
+    "react-native-refresher": "^0.1.1",
+    "react-native-side-menu": "^0.19.0",
+    "react-native-status-bar-size": "^0.2.1",
+    "react-native-vector-icons": "^2.0.3"
+  }
+}
