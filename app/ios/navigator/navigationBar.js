@@ -9,26 +9,12 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from 'react-native-button';
-//import LeftMenu from '../leftMenu/leftMenu'
 
-/*
- ...
- Dimensions
- } = React;
-
- var width = Dimensions.get('window').width; //full width
- var height = Dimensions.get('window').height; //full height
- */
-
-//TODO Title Change during navigation
-/*
-    listen to navigation changed not to callback
- */
 class NavigationBar extends React.Component{
 
     constructor(props){
         super(props);
-        this.backwardButtonPressed = props.backwardButtonPressed;
+        //this.backwardButtonPressed = props.backwardButtonPressed;
         this.state={
             type:'0'
         }
@@ -48,12 +34,9 @@ class NavigationBar extends React.Component{
 
     setMode(type) {
         //TODO refactoring. coded to avoid change component's state while other component is still on rendering process
-        setTimeout(()=>{
-            this.setState({
+        this.setState({
             type:type
-            })
-        });
-
+        })
     }
 
     renderLeftButton() {
@@ -89,32 +72,34 @@ class NavigationBar extends React.Component{
         )
     }
 
+
     onBackwardButtonPressed() {
-        this.backwardButtonPressed();
+        this.props.moveBackward();
     }
 
     onHamburgerButtonPressed() {
+        //this._drawer.open();
         this.props.openLeftMenu();
     }
 
     render() {
         return (
-            <View style={styles.navigationBar}>
+                <View style={styles.navigationBar}>
 
-                {this.renderLeftButton()}
+                    {this.renderLeftButton()}
 
-                {this.renderTitle()}
+                    {this.renderTitle()}
 
-                <Button containerStyle={styles.navigationBarMessage}>
-                    <Icon name="envelope" style={styles.navigationBarText}/>
-                </Button>
+                    <Button containerStyle={styles.navigationBarMessage}>
+                        <Icon name="envelope" style={styles.navigationBarText}/>
+                    </Button>
 
-                <Button containerStyle={styles.navigationBarNotice}>
-                    <Icon name="bell" style={styles.navigationBarText}/>
-                </Button>
+                    <Button containerStyle={styles.navigationBarNotice}>
+                        <Icon name="bell" style={styles.navigationBarText}/>
+                    </Button>
 
 
-            </View>
+                </View>
         );
     }
 };

@@ -13,10 +13,12 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NavigationBar from './navigationBar';
-//import PostList from '../post/postList';
 import PostListView from '../post/postListView';
 import dimension from '../../common/dimension';
-import LeftMenu from '../leftMenu/leftMenu'
+
+import Drawer from 'react-native-drawer';
+import LeftMenu from '../leftMenu/leftMenu';
+
 
 
 const SCREEN_WIDTH = dimension.screenWidth;
@@ -28,9 +30,9 @@ class NavigationLayout extends React.Component {
     constructor(props) {
         super(props);
 
-  /*      console.log("###")
-        console.log(this.props);
-        console.log(this.props.navigator);*/
+        /*      console.log("###")
+         console.log(this.props);
+         console.log(this.props.navigator);*/
         //this.sceneChanged = props.sceneChanged;
     }
 
@@ -44,10 +46,10 @@ class NavigationLayout extends React.Component {
         this._listeners && this._listeners.forEach(listener => listener.remove());
     };
 
-    notifySceneChanged(index){
+    notifySceneChanged(index) {
         //this.sceneChanged(index);
         //smile moment
-        if(this.navigationBar){
+        if (this.navigationBar) {
             //it is called before navigationBar navBar is set
             this.navigationBar.setMode(index);
         }
@@ -75,19 +77,27 @@ class NavigationLayout extends React.Component {
     }
 
 
-    requestSceneChange(route, arg) {
+    pushScene(route) {
         //console.log(route);
         //console.log(arg);
         //console.log(this.navigator);
-        //console.log("@@ requestSceneChange", route);
+        //console.log("@@ pushScene", route);
+        this.navigationBar.setMode(route.index);
+
         this.navigator.push(route);
+    }
+    //memory
+    popScene(currentIndex) {
+        this.navigationBar.setMode('0');
+
+        this.navigator.pop()
     }
 
     renderPostView() {
         return (
-                <ScrollView style={styles.scene}>
-                    <Text>Post 입니다 날씨가 참 좋네요 ^^ </Text>
-                </ScrollView>
+            <ScrollView style={styles.scene}>
+                <Text>Post 입니다 날씨가 참 좋네요 ^^ </Text>
+            </ScrollView>
         )
     }
 
@@ -101,7 +111,7 @@ class NavigationLayout extends React.Component {
                     <Text>IT 라운지 </Text>
                     <Text>디자이너 라운지</Text>
                 </ScrollView>
-                <PostListView requestSceneChange={this.requestSceneChange.bind(this)}></PostListView>
+                <PostListView requestSceneChange={this.pushScene.bind(this)}></PostListView>
             </View>
         )
     }
@@ -113,7 +123,7 @@ class NavigationLayout extends React.Component {
     renderScene(route, navigator) {
         //console.log('!!!!!!! render scene');
 
-        this.notifySceneChanged(route.index);
+        //this.notifySceneChanged(route.index);
 
         if (route.index == '0') {
             return this.renderMainView();
@@ -127,27 +137,34 @@ class NavigationLayout extends React.Component {
         return (
             <View style={styles.container}>
 
-                <Navigator
-                    ref={(nav)=>{this.navigator = nav}}
-                    debugOverlay={false}
-                    style={styles.appContainer}
-                    initialRoute={{name:'mainView', index:'0'}}
-                    renderScene={this.renderScene.bind(this)}
+                <Drawer
+                    type="static"
+                    tapToClose={true}
+                    openDrawerOffset={0.6}
+                    ref={(ref) => this._drawer = ref}
+                    content={<LeftMenu/>}
                 >
-                </Navigator>
 
-                <NavigationBar ref={(navBar)=>{this.navigationBar = navBar;}}
-                    backwardButtonPressed={()=>{this.navigator.pop();}}
-                    openLeftMenu={this.props.openLeftMenu}
-                >
-                </NavigationBar>
+                    <Navigator
+                        ref={(nav)=>{this.navigator = nav}}
+                        debugOverlay={false}
+                        style={styles.appContainer}
+                        initialRoute={{name:'mainView', index:'0'}}
+                        renderScene={this.renderScene.bind(this)}
+                    >
+                    </Navigator>
 
+                    <NavigationBar ref={(navBar)=>{this.navigationBar = navBar;}}
+                                   moveBackward={()=>{this.popScene()}}
+                                   openLeftMenu={()=>{this._drawer.open();}}
+                    >
+                    </NavigationBar>
+                </Drawer>
 
             </View>
         );
     }
-}
-;
+};
 /*
  navigationBar={
  <NavigationBar
@@ -158,7 +175,6 @@ class NavigationLayout extends React.Component {
  }
  */
 var screenFullWidth = Dimensions.get('window').width; //full width
-
 
 
 var styles = StyleSheet.create({
@@ -177,13 +193,6 @@ var styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 
-    messageText: {
-        fontSize: 17,
-        fontWeight: '500',
-        padding: 15,
-        marginTop: 50,
-        marginLeft: 15,
-    },
     button: {
         backgroundColor: 'white',
         padding: 15,
@@ -197,8 +206,8 @@ var styles = StyleSheet.create({
 
     scene: {
         //flex: 1,
-        marginTop : 65,
-        height :SCREEN_HEIGHT,
+        marginTop: 60,
+        height: SCREEN_HEIGHT,
         backgroundColor: '#EAEAEA',
     },
 });

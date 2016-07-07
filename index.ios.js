@@ -13,9 +13,7 @@ import {
     StatusBar
 } from 'react-native';
 
-import Navigator from './app/ios/topNavigationBar/navigationLayout';
-//import LeftMenu from './app/ios/leftMenu/leftMenu'
-import Drawer from 'react-native-drawer'
+import Navigator from './app/ios/navigator/navigator';
 
 /*
  TODO 공통 스타일
@@ -24,26 +22,7 @@ import Drawer from 'react-native-drawer'
  */
 
 
-class ControlPanel extends Component{
-    render(){
-        return (
-            <View style={{backgroundColor:'lightblue', height:700}}>
-                <Text style={{marginTop:100}}>this is a left drawer menu</Text>
-            </View>
-
-        )
-    }
-}
-
-
 class WorkingPeople extends Component {
-    closeLeftMenu() {
-        this._drawer.close()
-    };
-    openLeftMenu() {
-        this._drawer.open()
-    };
-
     render() {
         return (
             <View style={styles.container}>
@@ -52,21 +31,8 @@ class WorkingPeople extends Component {
                     barStyle="light-content"
                 />
 
-                <Drawer
-                    type="overlay"
-                    tapToClose={true}
-                    openDrawerOffset={0.5}
-                    ref={(ref) => this._drawer = ref}
-                    content={<ControlPanel />}
-                >
 
-
-                    <Navigator
-                        openLeftMenu={this.openLeftMenu.bind(this)}
-                        closeLeftMenu={this.closeLeftMenu.bind(this)}
-                     ></Navigator>
-
-                </Drawer>
+                <Navigator></Navigator>
 
             </View>
         );

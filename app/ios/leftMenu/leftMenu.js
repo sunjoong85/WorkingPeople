@@ -9,52 +9,51 @@ import {
     View,
 } from 'react-native';
 
+import commonStyles from '../../styles/styles';
+import dimension from '../../common/dimension';
 
-import Drawer from 'react-native-drawer'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from 'react-native-button';
-import NavigationBar from '../topNavigationBar/navigationBar';
 
-var drawerStyles = StyleSheet.create({
-    drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-    main: {paddingLeft: 3}
-})
 
-class ControlPanel extends Component{
+class LeftMenu extends Component{
+
     render(){
+        console.log("####" , dimension.screenSize.screenHeight);
+        console.log("####", dimension.statusBarHeight);
+        //TODO size things needed to be refactored
+
         return (
-            <View>
-                <Text>this is a control panel</Text>
+            <View style={[{backgroundColor:'#90C3D4', height:dimension.screenSize.screenHeight}]}>
+                <Text style={{marginTop:30, color:'white', fontSize:20}}>Left Menu</Text>
+                <Button>
+                    나의정보
+                </Button>
+
+                <Button>
+                    운명의매칭
+                </Button>
+
+                <Button>
+                    대시박스
+                </Button>
+
+                <Button>
+                    스토어
+                </Button>
+
+
+                <Button>
+                    설정
+               </Button>
+
+                <Button>
+                    도움말
+                </Button>
             </View>
 
         )
     }
 }
-
-class LeftMenu extends Component {
-    closeControlPanel = () => {
-        this._drawer.close()
-    };
-    openControlPanel = () => {
-        this._drawer.open()
-    };
-    render () {
-        return (
-            <Drawer
-                type="overlay"
-                tapToClose={true}
-
-                ref={(ref) => this._drawer = ref}
-                content={<ControlPanel />}
-            >
-
-
-
-            </Drawer>
-        )
-    }
-}
-//<Button style={{marginTop:100}} onPress={()=>{this.openControlPanel()}}>Click</Button>s
-//  <NavigationBar></NavigationBar>
-
 
 module.exports = LeftMenu;

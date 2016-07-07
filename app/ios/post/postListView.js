@@ -17,7 +17,8 @@ import {
 var styles = StyleSheet.create({
     row: {
         borderColor: 'grey',
-        borderWidth: 1,
+        borderBottomWidth: 1,
+
         padding: 20,
         backgroundColor: 'white',
         //margin: 1,
